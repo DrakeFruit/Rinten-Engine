@@ -9,14 +9,21 @@
 	<div class="side">
 		<div class="brand" tooltip="rinten @Version">
 			<img class="logo" @ref="Logo" />
+
+			<div class="brand-text">
+				<div class="brand-name">RINTEN</div>
+				<div class="brand-sub">ENGINE</div>
+			</div>
 		</div>
+
+		<div class="eyebrow">Library</div>
 
 		@* Where the window is. Home is the list of projects, from wherever the
 		   making of one had got to; the row under it is that making. *@
 		<div class="nav tab @(Section == Part.Projects && Showing == Page.Projects ? "on" : "")"
 			onclick=@( () => Go( Part.Projects ) )>
-			<i>home</i>
-			<div class="caption">Home</div>
+			<i>grid_view</i>
+			<div class="caption">Projects</div>
 		</div>
 
 		<div class="nav add @(Section == Part.Projects && Showing != Page.Projects ? "on" : "")" onclick=@StartCreate>
@@ -57,7 +64,19 @@
 			   the way back in front of that. *@
 			@if ( Section == Part.Projects && Showing == Page.Projects )
 			{
+				<div class="page-heading">
+					<div class="page-title">Library</div>
+					<div class="page-sub">@ProjectCount</div>
+				</div>
+
+				<div class="fill"></div>
+
 				<TextField @ref="Search" class="search" />
+
+				<div class="button primary page-new" onclick=@StartCreate>
+					<i>add</i>
+					<div class="caption">New project</div>
+				</div>
 			}
 			else
 			{
@@ -72,21 +91,67 @@
 					<div class="title">@Heading</div>
 					<div class="count">@Subheading</div>
 				</div>
-			}
 
-			<div class="fill"></div>
+				<div class="fill"></div>
 
-			@if ( Section == Part.Versions )
-			{
-				<div class="button ghost @(Versions.Loading ? "off" : "")" onclick=@RefreshVersions>
-					<i>refresh</i>
-				</div>
+				@if ( Section == Part.Versions )
+				{
+					<div class="button ghost @(Versions.Loading ? "off" : "")" onclick=@RefreshVersions>
+						<i>refresh</i>
+					</div>
+				}
 			}
 		</div>
 
 		@if ( Section == Part.Projects && Showing == Page.Projects )
 		{
 			<div class="projects page @Way">
+				@if ( Featured is { } featured )
+				{
+					@* The one most likely to be wanted, given the room a Steam library gives its hero. It is the first
+					   project the list would show - pinned first, then newest - so it follows the search as well. *@
+					<div class="hero" onclick=@( () => Open( featured ) )>
+						<div class="hero-art">
+							@if ( HasThumb( featured ) )
+							{
+								<Image class="pic" Texture=@Thumb( featured ) />
+							}
+							else
+							{
+								<div class="letter">@Initial( featured )</div>
+							}
+						</div>
+
+						<div class="hero-body">
+							<div class="hero-kicker">@(featured.Pinned ? "Pinned" : "Keep going")</div>
+							<div class="hero-title">@( featured.Config?.Title ?? "Untitled" )</div>
+
+							<div class="hero-sub">
+								<i>folder</i>
+								<div class="caption path">@Place( featured )</div>
+								<div class="dot">•</div>
+								<i>schedule</i>
+								<div class="caption">@When( featured )</div>
+
+								@if ( EngineVersions.GetProjectPin( featured ) is { } pin )
+								{
+									<div class="dot">•</div>
+									<div class="caption">@pin</div>
+								}
+							</div>
+
+							<div class="hero-actions">
+								<div class="button primary hero-open">
+									<i>play_arrow</i>
+									<div class="caption">Open project</div>
+								</div>
+
+								<div class="hero-note">@( HasThumb( featured ) ? "Ready to build" : "No thumbnail yet" )</div>
+							</div>
+						</div>
+					</div>
+				}
+
 				@{ var index = 0; }
 
 				@* Two to a row, under their heading. Two columns rather than one list
@@ -679,6 +744,20 @@
 		.Where( Matches )
 		.OrderByDescending( x => x.Pinned )
 		.ThenByDescending( x => x.LastOpened );
+
+	//The one the hero is for: the first the list would show, unless one is already on its way up.
+	private Project Featured => Opening ?? Shown.FirstOrDefault();
+
+	//What the page's small print says: how many there are, in words rather than a row of digits without a noun.
+	private string ProjectCount
+	{
+		get
+		{
+			var count = Shown.Count();
+
+			return count == 1 ? "1 project" : $"{count} projects";
+		}
+	}
 
 	//A heading over some of the projects, and the ones under it.
 	private sealed record Group( string Name, string Icon, List<Project> Projects );

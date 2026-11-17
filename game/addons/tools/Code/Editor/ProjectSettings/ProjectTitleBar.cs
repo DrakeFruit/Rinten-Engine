@@ -31,8 +31,8 @@ file class ProjectTitleButton : Widget
 
 		if ( Paint.HasMouseOver )
 		{
-			Paint.SetBrush( Theme.ButtonBackground.Lighten( 0.25f ) );
-			Paint.DrawRect( LocalRect );
+			Paint.SetBrush( Theme.VeilHover );
+			Paint.DrawRect( LocalRect.Shrink( 4.0f, 2.0f ), Theme.ControlRadius );
 		}
 
 		var contentRect = LocalRect.Shrink( HorizontalPadding, 0 );

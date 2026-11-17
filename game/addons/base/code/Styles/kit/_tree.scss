@@ -163,17 +163,20 @@
 	{
 		background-color: rgba( $accent, 0.2 );
 		border-color: rgba( $accent, 0.45 );
+		box-shadow: inset 3px 0px 0px $accent;
 	}
 
 	&.inner.selected
 	{
 		background-color: transparent;
 		border-color: transparent;
+		box-shadow: none;
 
 		> .plate
 		{
 			background-color: rgba( $accent, 0.2 );
 			border-color: rgba( $accent, 0.45 );
+			box-shadow: inset 3px 0px 0px $accent;
 		}
 	}
 

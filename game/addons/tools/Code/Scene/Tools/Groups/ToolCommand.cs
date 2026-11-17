@@ -64,8 +64,8 @@ public sealed class ToolCommand : IToolCommand
 	}
 }
 
-//Here rather than on each command, so every command reads the keybinds page the same way and every tooltip says the same thing.
-/// <summary>The words a tool command shows: its tooltip.</summary>
+//Here rather than on each command, so every command reads the keybinds page the same way.
+/// <summary>The words a tool command shows: its tooltip, with the keys in it.</summary>
 public static class ToolCommandText
 {
 	/// <summary>The keys the command's shortcut is on right now, upper case, or null where it has no shortcut or the shortcut has no keys.</summary>

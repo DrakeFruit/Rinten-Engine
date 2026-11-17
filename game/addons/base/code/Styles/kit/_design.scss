@@ -193,7 +193,7 @@ i,
 	flex-shrink: 0;
 	height: $row;
 	padding: 0px 12px;
-	color: $ink-dim;
+	color: $ink;
 
 	&:hover { color: $ink; }
 
@@ -492,8 +492,8 @@ i,
 
 	//The window frame without its shadow: around the corner at the pointer it reads as a dark smudge
 	@include frame-thin;
-	box-shadow: 0px 0px 0px 1px $frame-line;
-	border-radius: $slab-radius;
+	box-shadow: $shadow-float, 0px 0px 0px 1px $frame-line;
+	border-radius: $radius-3;
 
 	//Fade/scale transitions via classes from Menu.Panels.cs, since menus are reshown, not recreated
 	transition: opacity $fast $ease, transform $fast $ease;
@@ -533,7 +533,7 @@ i,
 
 	&:hover .body
 	{
-		background-color: $veil-hover;
+		background-color: rgba( $accent, 0.13 );
 
 		@include lit;
 	}
@@ -1231,7 +1231,7 @@ GradientControl.control > .preview:hover
 
 //What stands on the scene view's bar: a little taller than a field, as the bar is a little taller than a dock's - the
 //view's controls are reached for more than any other, and at a row's height they read as small beside the picture.
-$viewport-bar-control: 26px;
+$viewport-bar-control: 28px;
 
 .viewport-toolbar
 {
@@ -1245,6 +1245,7 @@ $viewport-bar-control: 26px;
 	//A plate: the bar the viewport's controls stand on is exactly where the hands keep going, and grey
 	//here means that. The viewport itself and the strip of open scenes stay on the window's ground.
 	background-color: $panel-ground;
+	box-shadow: inset 0px -1px 0px $edge-soft;
 
 	pointer-events: all;
 
@@ -1338,10 +1339,16 @@ $viewport-bar-control: 26px;
 	.group > .build-menu-button > .toolbarbutton
 	{
 		width: $viewport-bar-control;
+		border-color: transparent;
 	}
 
 	.group > .toolbarbutton:hover,
-	.group > .build-menu-button > .toolbarbutton:hover,
+	.group > .build-menu-button > .toolbarbutton:hover
+	{
+		background-color: $control-background-light;
+		border-color: transparent;
+	}
+
 	.snap-step:hover,
 	.resolution-mode:hover
 	{
@@ -1354,7 +1361,65 @@ $viewport-bar-control: 26px;
 	.group > .build-menu-button > .toolbarbutton.active
 	{
 		background-color: $picked;
-		border-color: rgba( $accent, 0.6 );
+		border-color: transparent;
+	}
+
+	//The one filled button on the bar, as Play is on the launcher's hero. It is wider than a glyph so the middle of
+	//the bar has a centre of gravity, and it is the only green plate among the dark controls either side of it.
+	.group > .toolbarbutton.play-primary
+	{
+		width: auto;
+		min-width: 86px;
+		padding: 0px 14px;
+
+		background-color: $accent-fill;
+		background-image: none;
+		border-color: $accent-fill;
+		box-shadow: none;
+
+		i
+		{
+			font-size: 20px;
+			color: $text-dark;
+		}
+
+		> .text
+		{
+			margin-left: 6px;
+
+			font-family: $font;
+			font-size: 12px;
+			font-weight: 600;
+			color: $text-dark;
+		}
+
+		&:hover
+		{
+			background-color: lighten( $accent-fill, 0.08 );
+			border-color: lighten( $accent-fill, 0.08 );
+		}
+
+		&:active
+		{
+			background-color: $accent-fill;
+			transform: scale( 0.97 );
+		}
+
+		&.stop
+		{
+			background-color: $red;
+			border-color: $red;
+			box-shadow: none;
+
+			i { color: $ink; }
+			> .text { color: $ink; }
+
+			&:hover
+			{
+				background-color: lighten( $red, 0.08 );
+				border-color: lighten( $red, 0.08 );
+			}
+		}
 	}
 }
 
@@ -1377,8 +1442,8 @@ $viewport-bar-control: 26px;
 	height: 30px;
 	flex-shrink: 0;
 
-	background-color: rgba( 0, 0, 0, 0.25 );
-	border-bottom: 1px solid $veil;
+	background-color: $window-ground;
+	border-bottom: 1px solid $edge-soft;
 
 	pointer-events: all;
 
@@ -1534,12 +1599,12 @@ textentry,
 	align-items: stretch;
 	flex-shrink: 0;
 	gap: 0px;
-	padding: 0px 4px 0px 0px;
-	min-height: 28px;
+	padding: 0px 6px 0px 0px;
+	min-height: 30px;
 	background-color: $tab-background;
-	border-left: 1px solid $border;
-	border-right: 1px solid $border;
-	border-bottom: 1px solid $border;
+	border-left: 1px solid $edge-soft;
+	border-right: 1px solid $edge-soft;
+	border-bottom: 1px solid $edge-soft;
 
 	> .toolbarbutton
 	{
@@ -1547,7 +1612,7 @@ textentry,
 		height: auto;
 		border-radius: 0px;
 		border-width: 0px;
-		border-right: 1px solid $border;
+		border-right: 1px solid $edge-soft;
 	}
 
 	//The last thing in the bar wants no line after it.
@@ -1606,10 +1671,11 @@ textentry,
 	gap: $gap-items;
 	padding: $pad-card-y $pad-card;
 	pointer-events: all;
-	background-color: $base-alt;
+	background-color: $card;
 	border: 1px solid $border;
 	border-top-color: $border-light;
-	border-radius: $radius-1;
+	border-radius: 8px;
+	box-shadow: $shadow-card;
 }
 
 //Every button in the first card is a square with a hairline round it, the same well the fields are.
@@ -1628,10 +1694,11 @@ textentry,
 {
 	flex-direction: column;
 	flex-shrink: 0;
-	background-color: $base-alt;
+	background-color: $card;
 	border: 1px solid $border;
 	border-top-color: $border-light;
-	border-radius: $radius-1;
+	border-radius: 8px;
+	box-shadow: $shadow-card;
 
 	> .content
 	{
@@ -1649,13 +1716,13 @@ textentry,
 	flex-direction: row;
 	align-items: center;
 	gap: 0px;
-	padding: 0px 3px 0px 0px;
-	min-height: 28px;
+	padding: 0px 4px 0px 0px;
+	min-height: 30px;
 	flex-shrink: 0;
-	background-color: $panel-background;
+	background-color: $card-hover;
 	border-bottom: 1px solid $sunken;
-	border-top-left-radius: $radius-1;
-	border-top-right-radius: $radius-1;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
 	color: $ink;
 	cursor: pointer;
 	pointer-events: all;
@@ -1666,7 +1733,7 @@ textentry,
 	//The whole bar is pressed to fold the card away, so it says so under the pointer like everything else does.
 	&:hover
 	{
-		background-color: #3a3a3a;
+		background-color: $tile-hover;
 	}
 
 	> .chevron,
@@ -1769,7 +1836,7 @@ textentry,
 	&.collapsed
 	{
 		border-bottom-color: transparent;
-		border-radius: $radius-1;
+		border-radius: 7px;
 	}
 
 	//A card that does not fold: its bar is a heading, and says nothing under the pointer.
@@ -1777,7 +1844,7 @@ textentry,
 	{
 		cursor: default;
 
-		&:hover { background-color: $panel-background; }
+		&:hover { background-color: $card-hover; }
 	}
 }
 
@@ -1805,16 +1872,20 @@ textentry,
 	background-color: $panel-ground;
 }
 
-//The inspector's dock has no ground of its own: its tab opens into the bar across its top, and the cards under that lie straight on the window's
-//dark. DockWidget names what it holds as a class - dock-inspector. The docks that are a tree are the same: a bar, and the tree in a frame on the dark.
+//The inspector is a panel on the window, and the docks that are a tree are the library rail: darker than the panel, with the
+//faint accent wash at the top that the launcher's own side wears. DockWidget names what it holds as a class - dock-inspector.
 .dockwidget.dock-inspector,
-.dockwidget.dock-inspector > .inspector,
+.dockwidget.dock-inspector > .inspector
+{
+	background-color: $panel-ground;
+}
+
 .dockwidget.dock-scenetreewidget,
 .dockwidget.dock-modeloutliner,
 .dockwidget.dock-effecttree,
 .dockwidget.dock-hierarchy
 {
-	background-color: transparent;
+	background-color: $solid;
 }
 
 //The strip of open scenes over a viewport, and the strip of documents in a workspace: headers, like the strip of tabs

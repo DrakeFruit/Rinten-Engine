@@ -115,72 +115,72 @@ public static partial class Theme
 
 		//The values written beside each one are the theme file's, not something older: a window opened without
 		//it - the launcher, a test host - has to look like the editor rather than like the editor used to look.
-		TabBackground = Color.Parse( Value( theme, "TabBackground" ) ) ?? Color.Parse( "#18181C8C" ).Value;
+		TabBackground = Color.Parse( Value( theme, "TabBackground" ) ) ?? Color.Parse( "#1e242c" ).Value;
 		TabBarBackground = Color.Parse( Value( theme, "TabBarBackground" ) ) ?? Color.Parse( "#00000000" ).Value;
 		TabInactiveBackground = Color.Parse( Value( theme, "TabInactiveBackground" ) ) ?? Color.Parse( "#00000000" ).Value;
-		SurfaceBackground = Color.Parse( Value( theme, "SurfaceBackground" ) ) ?? Color.Parse( "#FFFFFF0D" ).Value;
-		SurfaceLightBackground = Color.Parse( Value( theme, "SurfaceLightBackground" ) ) ?? Color.Parse( "#FFFFFF1A" ).Value;
-		SidebarBackground = Color.Parse( Value( theme, "SidebarBackground" ) ) ?? Color.Parse( "#05050ABF" ).Value;
-		WindowBackground = Color.Parse( Value( theme, "WindowBackground" ) ) ?? Color.Parse( "#0F0F14" ).Value;
-		WidgetBackground = Color.Parse( Value( theme, "WidgetBackground" ) ) ?? Color.Parse( "#05050ABF" ).Value;
-		ControlBackground = Color.Parse( Value( theme, "ControlBackground" ) ) ?? Color.Parse( "#18181C8C" ).Value;
-		ButtonBackground = Color.Parse( Value( theme, "ButtonBackground" ) ) ?? Color.Parse( "#18181C8C" ).Value;
-		SelectedBackground = Color.Parse( Value( theme, "SelectedBackground" ) ) ?? Color.Parse( "#FFFFFF14" ).Value;
-		StatusBarBackground = Color.Parse( Value( theme, "StatusBarBackground" ) ) ?? Color.Parse( "#05050ABF" ).Value;
-		Text = Color.Parse( Value( theme, "Text" ) ) ?? Color.Parse( "#FFFFFF" ).Value;
-		TextControl = Color.Parse( Value( theme, "TextControl" ) ) ?? Color.Parse( "#FFFFFF" ).Value;
-		TextLight = Color.Parse( Value( theme, "TextLight" ) ) ?? Color.Parse( "#FFFFFF99" ).Value;
-		TextWidget = Color.Parse( Value( theme, "TextWidget" ) ) ?? Color.Parse( "#FFFFFF" ).Value;
-		TextButton = Color.Parse( Value( theme, "TextButton" ) ) ?? Color.Parse( "#FFFFFF" ).Value;
+		SurfaceBackground = Color.Parse( Value( theme, "SurfaceBackground" ) ) ?? Color.Parse( "#1e242c" ).Value;
+		SurfaceLightBackground = Color.Parse( Value( theme, "SurfaceLightBackground" ) ) ?? Color.Parse( "#28313b" ).Value;
+		SidebarBackground = Color.Parse( Value( theme, "SidebarBackground" ) ) ?? Color.Parse( "#141920" ).Value;
+		WindowBackground = Color.Parse( Value( theme, "WindowBackground" ) ) ?? Color.Parse( "#151a21" ).Value;
+		WidgetBackground = Color.Parse( Value( theme, "WidgetBackground" ) ) ?? Color.Parse( "#1a2028" ).Value;
+		ControlBackground = Color.Parse( Value( theme, "ControlBackground" ) ) ?? Color.Parse( "#0f141a" ).Value;
+		ButtonBackground = Color.Parse( Value( theme, "ButtonBackground" ) ) ?? Color.Parse( "#2b3641" ).Value;
+		SelectedBackground = Color.Parse( Value( theme, "SelectedBackground" ) ) ?? Color.Parse( "#3c4a2b" ).Value;
+		StatusBarBackground = Color.Parse( Value( theme, "StatusBarBackground" ) ) ?? Color.Parse( "#131820" ).Value;
+		Text = Color.Parse( Value( theme, "Text" ) ) ?? Color.Parse( "#e6edf3" ).Value;
+		TextControl = Color.Parse( Value( theme, "TextControl" ) ) ?? Color.Parse( "#eef4f9" ).Value;
+		TextLight = Color.Parse( Value( theme, "TextLight" ) ) ?? Color.Parse( "#93a1b0" ).Value;
+		TextWidget = Color.Parse( Value( theme, "TextWidget" ) ) ?? Color.Parse( "#e6edf3" ).Value;
+		TextButton = Color.Parse( Value( theme, "TextButton" ) ) ?? Color.Parse( "#e6edf3" ).Value;
 		TextSelected = Color.Parse( Value( theme, "TextSelected" ) ) ?? Color.Parse( "#FFFFFF" ).Value;
 		TextLink = Color.Parse( Value( theme, "TextLink" ) ) ?? Color.Parse( "#8DB53E" ).Value;
 		TextHighlight = Color.Parse( Value( theme, "TextHighlight" ) ) ?? Color.Parse( "#FFFFFF" ).Value;
-		TextDisabled = Color.Parse( Value( theme, "TextDisabled" ) ) ?? Color.Parse( "#FFFFFF40" ).Value;
-		Border = Color.Parse( Value( theme, "Border" ) ) ?? Color.Parse( "#FFFFFF1A" ).Value;
-		BorderLight = Color.Parse( Value( theme, "BorderLight" ) ) ?? Color.Parse( "#FFFFFF33" ).Value;
-		BorderButton = Color.Parse( Value( theme, "BorderButton" ) ) ?? Color.Parse( "#FFFFFF1A" ).Value;
-		PopupBackground = Color.Parse( Value( theme, "PopupBackground" ) ) ?? Color.Parse( "#2a2a2a" ).Value;
+		TextDisabled = Color.Parse( Value( theme, "TextDisabled" ) ) ?? Color.Parse( "#5f6c7a" ).Value;
+		Border = Color.Parse( Value( theme, "Border" ) ) ?? Color.Parse( "#2a3541" ).Value;
+		BorderLight = Color.Parse( Value( theme, "BorderLight" ) ) ?? Color.Parse( "#3b4856" ).Value;
+		BorderButton = Color.Parse( Value( theme, "BorderButton" ) ) ?? Color.Parse( "#3b4856" ).Value;
+		PopupBackground = Color.Parse( Value( theme, "PopupBackground" ) ) ?? Color.Parse( "#1d242d" ).Value;
 		PopupBorderColor = Color.Parse( Value( theme, "PopupBorderColor" ) )
 			?? Color.Parse( Value( theme, "PopupBorder" ) )
-			?? Color.Parse( "#484848" ).Value;
-		Shadow = Color.Parse( Value( theme, "Shadow" ) ) ?? Color.Parse( "#00000066" ).Value;
+			?? Color.Parse( "#33404e" ).Value;
+		Shadow = Color.Parse( Value( theme, "Shadow" ) ) ?? Color.Parse( "#0d1117" ).Value;
 		Primary = Color.Parse( Value( theme, "Primary" ) ) ?? Color.Parse( "#8DB53E" ).Value;
 		Overlay = Color.Parse( Value( theme, "Overlay" ) ) ?? Color.Parse( "#00000080" ).Value;
-		MultipleValues = Color.Parse( Value( theme, "MultipleValues" ) ) ?? Color.Parse( "#FFFFFF66" ).Value;
-		Highlight = Color.Parse( Value( theme, "Highlight" ) ) ?? Color.Parse( "#FFFFFF0F" ).Value;
-		TextDark = Color.Parse( Value( theme, "TextDark" ) ) ?? Color.Parse( "#0A0A0F" ).Value;
-		Base = Color.Parse( Value( theme, "Base" ) ) ?? Color.Parse( "#0F0F14" ).Value;
-		BaseAlt = Color.Parse( Value( theme, "BaseAlt" ) ) ?? Color.Parse( "#0B0B10" ).Value;
+		MultipleValues = Color.Parse( Value( theme, "MultipleValues" ) ) ?? Color.Parse( "#52606e" ).Value;
+		Highlight = Color.Parse( Value( theme, "Highlight" ) ) ?? Color.Parse( "#2b3642" ).Value;
+		TextDark = Color.Parse( Value( theme, "TextDark" ) ) ?? Color.Parse( "#0a0e13" ).Value;
+		Base = Color.Parse( Value( theme, "Base" ) ) ?? Color.Parse( "#10151b" ).Value;
+		BaseAlt = Color.Parse( Value( theme, "BaseAlt" ) ) ?? Color.Parse( "#202730" ).Value;
 
-		ToggleEnabled = Color.Parse( Value( theme, "ToggleEnabled" ) ) ?? Color.Parse( "#50C878" ).Value;
-		ToggleDisabled = Color.Parse( Value( theme, "ToggleDisabled" ) ) ?? Color.Parse( "#FFFFFF1A" ).Value;
+		ToggleEnabled = Color.Parse( Value( theme, "ToggleEnabled" ) ) ?? Color.Parse( "#8DB53E" ).Value;
+		ToggleDisabled = Color.Parse( Value( theme, "ToggleDisabled" ) ) ?? Color.Parse( "#44523a" ).Value;
 
-		Blue = Color.Parse( Value( theme, "Blue" ) ) ?? Color.Parse( "#2f34bd" ).Value;
-		Green = Color.Parse( Value( theme, "Green" ) ) ?? Color.Parse( "#50C878" ).Value;
-		Red = Color.Parse( Value( theme, "Red" ) ) ?? Color.Parse( "#DC3C3C" ).Value;
-		Yellow = Color.Parse( Value( theme, "Yellow" ) ) ?? Color.Parse( "#F0C828" ).Value;
-		Pink = Color.Parse( Value( theme, "Pink" ) ) ?? Color.Parse( "#DF9194" ).Value;
+		Blue = Color.Parse( Value( theme, "Blue" ) ) ?? Color.Parse( "#66c0f4" ).Value;
+		Green = Color.Parse( Value( theme, "Green" ) ) ?? Color.Parse( "#8DB53E" ).Value;
+		Red = Color.Parse( Value( theme, "Red" ) ) ?? Color.Parse( "#E15B5B" ).Value;
+		Yellow = Color.Parse( Value( theme, "Yellow" ) ) ?? Color.Parse( "#E5C26B" ).Value;
+		Pink = Color.Parse( Value( theme, "Pink" ) ) ?? Color.Parse( "#DF9AA6" ).Value;
 
 		Prefab = Color.Parse( Value( theme, "Prefab" ) ) ?? Color.Parse( "#8DB53E" ).Value;
-		Folder = Color.Parse( Value( theme, "Folder" ) ) ?? Color.Parse( "#F0C828" ).Value;
+		Folder = Color.Parse( Value( theme, "Folder" ) ) ?? Color.Parse( "#E5C26B" ).Value;
 
 		if ( !float.TryParse( Value( theme, "ControlRadius" ), out ControlRadius ) )
 			ControlRadius = 6.0f;
 
 		if ( !float.TryParse( Value( theme, "ControlHeight" ), out ControlHeight ) )
-			ControlHeight = 28.0f;
+			ControlHeight = 24.0f;
 
 		if ( !float.TryParse( Value( theme, "RowHeight" ), out RowHeight ) )
-			RowHeight = 28.0f;
+			RowHeight = 24.0f;
 
 		if ( !float.TryParse( Value( theme, "ListRowHeight" ), out ListRowHeight ) )
-			ListRowHeight = 22.0f;
+			ListRowHeight = 24.0f;
 
 		if ( !float.TryParse( Value( theme, "SeparatorWidth" ), out SeparatorWidth ) )
 			SeparatorWidth = 4.0f;
 
 		SeparatorColor = Color.Parse( Value( theme, "SeparatorColor" ) ) ?? WindowBackground;
-		SeparatorHoverColor = Color.Parse( Value( theme, "SeparatorHoverColor" ) ) ?? Color.Parse( "#282828" ).Value;
+		SeparatorHoverColor = Color.Parse( Value( theme, "SeparatorHoverColor" ) ) ?? Color.Parse( "#26303a" ).Value;
 
 		HeadingFont = Value( theme, "HeadingFont" ) ?? "Inter";
 		DefaultFont = Value( theme, "DefaultFont" ) ?? "Inter";

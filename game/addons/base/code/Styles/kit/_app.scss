@@ -1,18 +1,18 @@
 //A desktop app's workbench, VS Code's dark grounds with the engine's accent: the title bar (AppTitleBar),
 //its menus, the resize bar (ResizeHandle), an icon bar, tabs and a status bar. Written against _tokens and _theme
 
-$app-chrome: #181818;
-$app-editor: #1f1f1f;
-$app-line: #2b2b2b;
-$app-hover: #2a2d2e;
-$app-picked: #37373d;
-$app-input: #313131;
-$app-input-edge: #3c3c3c;
-$app-ink: #cccccc;
-$app-ink-dim: #9d9d9d;
-$app-ink-faint: #6e7681;
-$app-menu: #1f1f1f;
-$app-menu-edge: #454545;
+$app-chrome: #10151b;
+$app-editor: #151a21;
+$app-line: #222b35;
+$app-hover: #1e242c;
+$app-picked: #2b3641;
+$app-input: #0f141a;
+$app-input-edge: #2a3541;
+$app-ink: #e6edf3;
+$app-ink-dim: #93a1b0;
+$app-ink-faint: #5f6c7a;
+$app-menu: #1d242d;
+$app-menu-edge: #33404e;
 $app-accent: $accent;
 $app-wash: rgba( 255, 255, 255, 0.1 );
 

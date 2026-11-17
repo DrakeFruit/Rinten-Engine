@@ -34,7 +34,7 @@ internal sealed class EditorTabStrip : Widget
 	public EditorTabStrip( Widget parent ) : base( parent )
 	{
 		Layout = Layout.Row();
-		FixedHeight = 26;
+		FixedHeight = 32;
 	}
 
 	/// <summary>What stands after the tabs, such as the scene's new-scene button.</summary>
@@ -158,7 +158,7 @@ internal sealed class EditorTabStrip : Widget
 		protected override Vector2 SizeHint()
 		{
 			Paint.SetDefaultFont( weight: 500 );
-			return new Vector2( Paint.MeasureText( Shown ).x + TextLeft + 29, 26 );
+			return new Vector2( Paint.MeasureText( Shown ).x + TextLeft + 29, 32 );
 		}
 
 		protected override void OnPaint()
@@ -175,9 +175,10 @@ internal sealed class EditorTabStrip : Widget
 
 			if ( IsCurrent || accent is not null )
 			{
-				//Inside the corners, so the line does not cut across them
-				Paint.SetBrush( accent ?? Theme.EdgeLit );
-				Paint.DrawRect( new Rect( round, 0, Width - (round * 2.0f), 2 ) );
+				//Inside the corners, so the line does not cut across them. A playing scene keeps its own colour; the open
+				//document takes the editor's green, the same rule the dock tabs wear.
+				Paint.SetBrush( accent ?? Theme.Accent );
+				Paint.DrawRect( new Rect( round, 0, Width - (round * 2.0f), 2 ), 1.0f );
 			}
 
 			var color = IsCurrent || hovered ? Theme.Text : Theme.TextLight;

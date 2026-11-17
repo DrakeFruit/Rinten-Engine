@@ -11,8 +11,12 @@
    Meant for the base addon eventually, so a game gets it too - see EDITOR-STYLE.md.
    It is here because the editor's own addon cannot see that one. *@
 
-<root class="toolbarbutton @StateClass" tooltip="@FullToolTip" onclick="@Press">
+<root class="toolbarbutton @StateClass @ExtraClass" tooltip="@FullToolTip" onclick="@Press">
 	<i style="@TintStyle">@Icon</i>
+	@if ( !string.IsNullOrEmpty( Label ) )
+	{
+		<label class="text">@Label</label>
+	}
 	@if ( CornerKey is not null )
 	{
 		<label class="key">@CornerKey</label>
@@ -23,6 +27,12 @@
 {
 	//The icon drawn in the middle, by name.
 	public string Icon { get; set; }
+
+	//A word beside the icon, for the one button on a bar that is an action rather than a toggle - Play.
+	public string Label { get; set; }
+
+	//An extra class for the odd one out - the filled Play button - kept beside the button's own classes rather than replacing them.
+	public string ExtraClass { get; set; }
 
 	//What the pointer says this does.
 	public string ToolTip { get; set; }
@@ -61,5 +71,5 @@
 		OnPressed?.Invoke();
 	}
 
-	protected override int BuildHash() => HashCode.Combine( Icon, ToolTip, Active, Disabled, Tint, Keys );
+	protected override int BuildHash() => HashCode.Combine( Icon, Label, ExtraClass, ToolTip, Active, Disabled, Tint, Keys );
 }

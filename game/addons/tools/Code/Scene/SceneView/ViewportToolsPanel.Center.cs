@@ -71,17 +71,22 @@ partial class ViewportToolsPanel
 		var isPlaying = _playState == PlayControlState.Playing;
 		PlayButton.Enabled = true;
 
+		//The one filled button on the bar, as Play is on the launcher's hero: green while armed, red while running.
+		PlayButton.Class = isPlaying ? "play-primary stop" : "play-primary";
+
+		PlayButton.Label = isPlaying ? "Stop" : "Play";
+
 		if ( isPlaying )
 		{
 			PlayButton.ToolTip = WithKeys( "Stop", "editor.toggle-play" );
 			PlayButton.Icon = () => "stop";
-			PlayButton.Color = Theme.Red;
+			PlayButton.Color = Theme.Ink;
 		}
 		else
 		{
 			PlayButton.ToolTip = WithKeys( "Play", "editor.toggle-play" );
 			PlayButton.Icon = () => "play_arrow";
-			PlayButton.Color = Theme.Green;
+			PlayButton.Color = Theme.TextDark;
 		}
 
 		PauseButton.Enabled = isPlaying;

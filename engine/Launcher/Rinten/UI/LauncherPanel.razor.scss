@@ -54,7 +54,7 @@ LauncherPanel
 		min-height: 0;
 	}
 
-	//Darker towards the foot of the window, over both halves: about a tenth of black at the very bottom, gone thirty-odd pixels up.
+	//Kept as a layer rather than a wash: the window is one flat surface now.
 	.shade
 	{
 		position: absolute;
@@ -66,7 +66,7 @@ LauncherPanel
 
 		pointer-events: none;
 
-		background-image: linear-gradient( to bottom, transparent, rgba( 0, 0, 0, 0.1 ) );
+		background-color: transparent;
 	}
 
 	//The side: the inspector's grey, with rows on it in the near-black of the editor's fields.
@@ -732,14 +732,12 @@ LauncherPanel
 
 		.working .sweep
 		{
-			background-image: linear-gradient( to right,
-				transparent, rgba( $accent, 0.16 ), transparent );
+			background-color: rgba( $accent, 0.12 );
 		}
 
 		.working .sweep.behind
 		{
-			background-image: linear-gradient( to right,
-				transparent, rgba( $accent, 0.09 ), transparent );
+			background-color: rgba( $accent, 0.07 );
 		}
 
 		.when
@@ -767,14 +765,12 @@ LauncherPanel
 
 		.working .sweep
 		{
-			background-image: linear-gradient( to right,
-				transparent, rgba( $red, 0.16 ), transparent );
+			background-color: rgba( $red, 0.12 );
 		}
 
 		.working .sweep.behind
 		{
-			background-image: linear-gradient( to right,
-				transparent, rgba( $red, 0.09 ), transparent );
+			background-color: rgba( $red, 0.07 );
 		}
 
 		.when
@@ -1360,6 +1356,622 @@ LauncherPanel
 		color: $ink-off;
 		white-space: nowrap;
 		text-overflow: ellipsis;
+	}
+
+	//── the library, as the modern client draws one ──────────────────────────
+	//A darker rail with immediate rows, a blue-slate stage, and one large hero for the project you are most likely
+	//to want. The green stays the editor's own accent: the hero's button, the picked row, and the shelf icons.
+
+	.side
+	{
+		width: 232px;
+		padding: 18px 14px 16px 14px;
+
+		background-color: #141b24;
+		border-right: 1px solid rgba( 255, 255, 255, 0.055 );
+	}
+
+	.brand
+	{
+		height: 40px;
+		margin-bottom: 18px;
+
+		.logo
+		{
+			width: 36px;
+			height: 36px;
+			border-radius: 8px;
+			box-shadow: 0 0 0 1px rgba( 255, 255, 255, 0.08 );
+		}
+	}
+
+	.brand-text
+	{
+		flex-direction: column;
+		justify-content: center;
+
+		margin-left: 10px;
+		min-width: 0;
+	}
+
+	.brand-name
+	{
+		font-size: 15px;
+		font-weight: 800;
+		letter-spacing: 3px;
+		color: $ink;
+	}
+
+	.brand-sub
+	{
+		margin-top: 1px;
+
+		font-size: 9px;
+		font-weight: 600;
+		letter-spacing: 2px;
+		color: $ink-faint;
+	}
+
+	.eyebrow
+	{
+		@include micro;
+
+		margin: 0 0 8px 12px;
+		color: $ink-off;
+	}
+
+	.nav
+	{
+		height: 34px;
+		padding: 0 12px;
+		margin-bottom: 2px;
+
+		background-color: transparent;
+		border-color: transparent;
+		border-radius: 7px;
+
+		> i
+		{
+			width: 22px;
+			text-align: center;
+			font-size: 18px;
+			color: $ink-faint;
+		}
+
+		.caption
+		{
+			margin-left: 9px;
+
+			font-size: $type-body;
+			font-weight: 500;
+			color: $ink-dim;
+		}
+
+		.out { color: $ink-off; }
+
+		&:hover
+		{
+			background-color: rgba( 255, 255, 255, 0.065 );
+			border-color: transparent;
+
+			i, .caption { color: $ink; }
+		}
+
+		&:active { background-color: rgba( 255, 255, 255, 0.09 ); }
+	}
+
+	.nav.on
+	{
+		background-color: rgba( $accent, 0.14 );
+		border-color: transparent;
+		box-shadow: inset 3px 0px 0px $accent;
+
+		> i { color: $accent; }
+		.caption { color: $ink; }
+
+		&:hover
+		{
+			background-color: rgba( $accent, 0.18 );
+			border-color: transparent;
+		}
+	}
+
+	.rule
+	{
+		margin: 14px 8px 12px 8px;
+		background-color: rgba( 255, 255, 255, 0.065 );
+	}
+
+	.corners
+	{
+		top: auto;
+		right: 18px;
+		bottom: 16px;
+		left: 18px;
+	}
+
+	.community > .link
+	{
+		width: 30px;
+		height: 30px;
+		border-radius: 7px;
+		background-color: transparent;
+		border-color: transparent;
+
+		&:hover
+		{
+			background-color: rgba( 255, 255, 255, 0.065 );
+			border-color: transparent;
+		}
+	}
+
+	.main
+	{
+		padding: 18px 22px 0px 22px;
+
+		background-color: $window-ground;
+	}
+
+	.head
+	{
+		height: 46px;
+		margin-bottom: 14px;
+
+		width: 100%;
+		max-width: 1400px;
+		align-self: center;
+	}
+
+	.page-heading
+	{
+		flex-direction: column;
+		justify-content: center;
+
+		flex-shrink: 0;
+		min-width: 0;
+	}
+
+	.page-title
+	{
+		font-size: 26px;
+		font-weight: 800;
+		letter-spacing: -0.4px;
+		color: $ink;
+		white-space: nowrap;
+	}
+
+	.page-sub
+	{
+		margin-top: 2px;
+
+		@include micro;
+
+		font-size: 10px;
+		color: $ink-faint;
+	}
+
+	//The search is the command centre of the client's top bar: a pill rather than a boxed-in form field.
+	.search
+	{
+		width: 300px;
+		min-width: 170px;
+		flex-shrink: 1;
+		height: 34px;
+
+		padding: 0px 12px;
+
+		background-color: rgba( 0, 0, 0, 0.32 );
+		border: 1px solid rgba( 255, 255, 255, 0.075 );
+		border-radius: 17px;
+		box-shadow: inset 0px 1px 2px rgba( 0, 0, 0, 0.24 );
+
+		.mark
+		{
+			font-size: 15px;
+			margin-right: 7px;
+			color: $ink-faint;
+		}
+
+		&:hover
+		{
+			background-color: rgba( 0, 0, 0, 0.38 );
+			border-color: rgba( $accent, 0.4 );
+		}
+	}
+
+	.search.focused
+	{
+		background-color: rgba( 0, 0, 0, 0.42 );
+		border-color: rgba( $accent, 0.72 );
+	}
+
+	.search .hint { left: 12px; }
+	.search.marked .hint { left: 32px; }
+
+	.page-new
+	{
+		height: 34px;
+		margin-left: 10px;
+
+		font-weight: 600;
+	}
+
+	//── the hero: the project the list would show first ──────────────────────
+
+	.hero
+	{
+		position: relative;
+
+		flex-direction: row;
+		flex-shrink: 0;
+
+		height: 216px;
+		margin-bottom: 16px;
+
+		overflow: hidden;
+
+		cursor: pointer;
+
+		background-color: #1b2838;
+		border: 1px solid rgba( 255, 255, 255, 0.08 );
+		border-radius: 10px;
+		box-shadow: 0px 10px 30px rgba( 0, 0, 0, 0.22 );
+
+		transition: border-color $fast $ease, box-shadow $fast $ease, transform $fast $ease;
+
+		&:hover
+		{
+			border-color: rgba( $accent, 0.45 );
+			box-shadow: 0px 14px 38px rgba( 0, 0, 0, 0.34 );
+			transform: translateY( -1px );
+		}
+	}
+
+	.hero-art
+	{
+		position: relative;
+
+		width: 38%;
+		min-width: 240px;
+		max-width: 640px;
+		flex-shrink: 1;
+
+		align-items: center;
+		justify-content: center;
+
+		overflow: hidden;
+
+		background-color: #0f141a;
+		border-right: 1px solid rgba( 255, 255, 255, 0.06 );
+
+		.pic
+		{
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.letter
+		{
+			font-size: 92px;
+			font-weight: 800;
+			color: rgba( 255, 255, 255, 0.14 );
+		}
+	}
+
+	.hero-body
+	{
+		flex-direction: column;
+		flex-grow: 1;
+		justify-content: center;
+
+		min-width: 0;
+		padding: 22px 26px;
+	}
+
+	.hero-kicker
+	{
+		@include micro;
+
+		font-size: 10px;
+		letter-spacing: 2px;
+		color: $accent;
+	}
+
+	.hero-title
+	{
+		margin-top: 4px;
+
+		font-size: 30px;
+		font-weight: 800;
+		letter-spacing: -0.5px;
+		color: $ink;
+
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.hero-sub
+	{
+		flex-direction: row;
+		align-items: center;
+
+		margin-top: 8px;
+		min-width: 0;
+
+		font-size: $type-small;
+		color: $ink-faint;
+
+		i
+		{
+			flex-shrink: 0;
+			font-size: 13px;
+			color: $ink-off;
+		}
+
+		.caption
+		{
+			flex-shrink: 0;
+			margin-left: 4px;
+			color: $ink-faint;
+			white-space: nowrap;
+		}
+
+		.path
+		{
+			flex-shrink: 1;
+			min-width: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.dot
+		{
+			flex-shrink: 0;
+			margin: 0px 7px;
+			color: $ink-off;
+		}
+	}
+
+	.hero-actions
+	{
+		flex-direction: row;
+		align-items: center;
+
+		margin-top: 20px;
+		gap: 10px;
+	}
+
+	.hero-open
+	{
+		height: 36px;
+		padding: 0px 18px;
+		margin-left: 0px;
+
+		font-weight: 600;
+
+		i { font-size: 18px; }
+		.caption { margin-left: 7px; font-weight: 600; }
+	}
+
+	.hero-note
+	{
+		@include micro;
+
+		color: $ink-off;
+		letter-spacing: 0.4px;
+	}
+
+	//── the shelves below it ─────────────────────────────────────────────────
+
+	.projects,
+	.types,
+	.setup,
+	.releases
+	{
+		width: 100%;
+		max-width: 1400px;
+		align-self: center;
+	}
+
+	.projects { padding-right: 0px; }
+
+	.section
+	{
+		height: 22px;
+		margin: 12px 0px 7px 0px;
+
+		i
+		{
+			font-size: 14px;
+			color: $accent;
+		}
+
+		.caption
+		{
+			margin-left: 6px;
+
+			font-size: 10px;
+			font-weight: 700;
+			letter-spacing: 1.4px;
+			text-transform: uppercase;
+			color: $ink-faint;
+		}
+	}
+
+	.pair, .column { gap: 6px; }
+
+	.card
+	{
+		height: 66px;
+		padding: 0px 10px;
+
+		background-color: $card;
+		border-color: rgba( 255, 255, 255, 0.06 );
+		border-top-color: rgba( 255, 255, 255, 0.09 );
+		border-radius: 9px;
+		box-shadow: 0px 3px 14px rgba( 0, 0, 0, 0.16 );
+
+		transition: background-color $fast $ease, border-color $fast $ease, transform $fast $ease, box-shadow $fast $ease;
+
+		&:hover
+		{
+			background-color: $card-hover;
+			border-color: rgba( $accent, 0.38 );
+			box-shadow: 0px 7px 20px rgba( 0, 0, 0, 0.26 );
+			transform: translateY( -1px );
+		}
+
+		&:active
+		{
+			background-color: $card-down;
+			transform: translateY( 0px );
+		}
+
+		.thumb
+		{
+			width: 46px;
+			height: 46px;
+			border-radius: 8px;
+			background-color: $chip;
+		}
+
+		.text { margin-left: 10px; }
+
+		.title
+		{
+			font-size: 13px;
+			font-weight: 600;
+		}
+
+		.sub
+		{
+			margin-top: 4px;
+			font-size: 10px;
+		}
+
+		.actions
+		{
+			opacity: 0.42;
+			transition: opacity $fast $ease;
+		}
+
+		&:hover .actions { opacity: 1; }
+
+		.square
+		{
+			width: 22px;
+			height: 22px;
+			border-radius: 5px;
+
+			i { font-size: 13px; }
+		}
+	}
+
+	//The found cards are a little quieter than the ones already in the list.
+	.card.near
+	{
+		background-color: rgba( $card, 0.55 );
+		border-style: dashed;
+		border-color: rgba( 255, 255, 255, 0.08 );
+	}
+
+	.type
+	{
+		width: 250px;
+		height: 196px;
+		padding: 18px;
+
+		background-color: $card;
+		border-color: rgba( 255, 255, 255, 0.06 );
+		border-top-color: rgba( 255, 255, 255, 0.09 );
+		border-radius: 10px;
+		box-shadow: 0px 4px 18px rgba( 0, 0, 0, 0.18 );
+
+		transition: background-color $fast $ease, border-color $fast $ease, transform $fast $ease, box-shadow $fast $ease;
+
+		.glyph
+		{
+			width: 44px;
+			height: 44px;
+			border-radius: 9px;
+
+			i { font-size: 24px; }
+		}
+
+		.name
+		{
+			margin-top: 14px;
+			font-size: 15px;
+			font-weight: 600;
+		}
+
+		.about { margin-top: 6px; font-size: 11px; }
+
+		.pick
+		{
+			opacity: 0.45;
+
+			.caption { color: $accent; }
+			i { color: $accent; }
+		}
+
+		&:hover
+		{
+			background-color: $card-hover;
+			border-color: rgba( $accent, 0.42 );
+			box-shadow: 0px 9px 24px rgba( 0, 0, 0, 0.28 );
+			transform: translateY( -2px );
+
+			.glyph { background-color: $chip-hover; }
+			.pick { opacity: 1; }
+		}
+	}
+
+	.release
+	{
+		height: 58px;
+		padding: 0px 10px;
+
+		background-color: $card;
+		border-color: rgba( 255, 255, 255, 0.06 );
+		border-top-color: rgba( 255, 255, 255, 0.09 );
+		border-radius: 9px;
+		box-shadow: 0px 3px 14px rgba( 0, 0, 0, 0.14);
+
+		.mark
+		{
+			width: 38px;
+			height: 38px;
+			border-radius: 8px;
+		}
+	}
+
+	.field .input
+	{
+		height: 38px;
+		padding: 0px 12px;
+		border-radius: 7px;
+
+		.hint { left: 12px; }
+	}
+
+	.field .line .button
+	{
+		height: 38px;
+		width: 38px;
+	}
+
+	.source
+	{
+		height: 38px;
+		border-radius: 7px;
+	}
+
+	.foot
+	{
+		border-top-color: rgba( 255, 255, 255, 0.06 );
 	}
 }
 

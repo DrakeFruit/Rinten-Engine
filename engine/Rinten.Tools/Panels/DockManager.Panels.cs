@@ -199,7 +199,7 @@ public partial class DockManager
 	private static bool Spent( Side node ) => node is { IsSplit: false, Made: true, Docks.Count: 0 };
 
 	//How tall the strip of tab names is.
-	private const float TabHeight = 24.0f;
+	private const float TabHeight = 28.0f;
 
 	//How wide the gap between two edges is: the theme's one separator width.
 	private static float Gap => Theme.SeparatorWidth;
@@ -249,7 +249,7 @@ public partial class DockManager
 
 	//How wide a tab is: its name, its close box, and room around both.
 	private static float TabWidth( DockWidget dock )
-		=> EditorText.Measure( dock.Title ).x + 24.0f + CloseSize + IconRoom( dock );
+		=> EditorText.Measure( dock.Title ).x + 30.0f + CloseSize + IconRoom( dock );
 
 	//The room a tab's icon takes from the front of it: the glyph and the gap after.
 	private static float IconRoom( DockWidget dock )
@@ -959,24 +959,47 @@ public partial class DockManager
 			var tab = new Rect( at, strip.Top, tabWidth, strip.Height );
 
 			var showing = i == side.Current;
+			var close = CloseOf( tab );
+			var overClose = pointer is { } p && close.IsInside( p );
+			var overTab = pointer is { } over && tab.IsInside( over ) && !overClose;
 
 			if ( showing )
 			{
 				var round = Theme.TabRadius;
 
-				//The open tab is the panel's grey joined to the panel, and that is all: no line of the accent along its top, the way nothing that is on in this
-				//editor wears a bar of colour. Edged by the same hairline the cards under it wear, and then opened along the bottom again, where it joins its panel.
+				//The open tab is the panel's grey joined to the panel, edged by the same hairline the cards wear and opened along
+				//the bottom where it meets its panel. A green rule along the top is what says which tab is in front at a glance.
 				Paint.SetPen( Theme.Border, 1.0f );
 				Paint.SetBrush( Theme.TabBackground );
 				Paint.DrawRect( tab.Shrink( 0.5f, 0.5f, 0.5f, -1.0f ), round, round, 0.0f, 0.0f );
 
-				Paint.ClearPen();
+				//The light along the inside of the top edge, then the accent line that marks it as the open one.
+				var rule = MathF.Max( 0.0f, tab.Width - ( round * 2.0f ) );
+
+				if ( rule > 0.0f )
+				{
+					Paint.ClearPen();
+					Paint.SetBrush( Theme.Highlight.WithAlpha( 0.28f ) );
+					Paint.DrawRect( new Rect( tab.Left + round, tab.Top + 1.0f, rule, 1.0f ) );
+
+					Paint.SetBrush( Theme.Accent );
+					Paint.DrawRect( new Rect( tab.Left + round, tab.Top + 1.0f, rule, 2.0f ), 1.0f );
+				}
+
+				Paint.SetBrush( Theme.TabBackground );
 				Paint.DrawRect( new Rect( tab.Left + 1.0f, tab.Bottom - 1.0f, tab.Width - 2.0f, 2.0f ) );
 
 				openTab = tab;
 			}
+			else if ( overTab )
+			{
+				//A tab under the pointer gets a rounded plate rather than a full-width band, so the strip keeps its air.
+				Paint.ClearPen();
+				Paint.SetBrush( Theme.Slab );
+				Paint.DrawRect( tab.Shrink( 2.0f, 5.0f, 2.0f, 1.0f ), 6.0f, 6.0f, 0.0f, 0.0f );
+			}
 
-			Paint.SetPen( showing ? Theme.Ink : Theme.InkDim );
+			Paint.SetPen( showing || overTab ? Theme.Ink : Theme.InkDim );
 
 			var room = IconRoom( dock );
 			var words = new Rect( tab.Left + room, tab.Top, tab.Width - CloseSize - 6.0f - room, tab.Height );
@@ -990,12 +1013,9 @@ public partial class DockManager
 				var left = words.Center.x - ( nameWidth * 0.5f ) - room;
 				var glyph = new Rect( left, tab.Top, TabIconSize, tab.Height );
 
-				Paint.SetPen( showing ? Theme.Ink : Theme.InkDim );
+				Paint.SetPen( showing ? Theme.Accent : Theme.InkDim );
 				Paint.DrawIcon( glyph, dock.Icon, TabIconSize, TextFlag.Center );
 			}
-
-			var close = CloseOf( tab );
-			var overClose = pointer is { } p && close.IsInside( p );
 
 			//The same light plate the title bar's buttons wear under the pointer
 			if ( overClose )
@@ -1005,7 +1025,7 @@ public partial class DockManager
 				Paint.DrawRect( close.Grow( 2.0f, 2.0f ), Theme.ControlRadius );
 			}
 
-			Paint.SetPen( overClose ? Theme.Ink : showing ? Theme.InkDim : Theme.InkOff );
+			Paint.SetPen( overClose ? Theme.Ink : showing || overTab ? Theme.InkDim : Theme.InkOff );
 			Paint.DrawIcon( close, "close", 12.0f );
 
 			at += tabWidth;

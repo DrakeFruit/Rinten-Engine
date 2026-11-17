@@ -15,6 +15,9 @@ public partial class ViewportToolsPanel : EditorPanel
 		/// <summary>Live text instead of an icon - a frame time, a resolution.</summary>
 		public Func<string> Text { get; set; }
 
+		/// <summary>A word beside the icon on a button that is an action rather than a toggle - Play.</summary>
+		public string Label { get; set; }
+
 		/// <summary>What the pointer says it does.</summary>
 		public string ToolTip { get; set; }
 

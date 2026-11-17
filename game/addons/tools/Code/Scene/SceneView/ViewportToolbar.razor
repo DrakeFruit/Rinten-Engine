@@ -57,8 +57,9 @@
 							}
 							else
 							{
-								<ToolbarButton class="@item.Class"
+								<ToolbarButton ExtraClass="@item.Class"
 											   Icon="@item.Icon?.Invoke()"
+											   Label="@item.Label"
 											   ToolTip="@item.ToolTip"
 											   Active="@(item.IsActive?.Invoke() ?? false)"
 											   Disabled="@(!item.Enabled)"
@@ -123,6 +124,7 @@
 			foreach ( var item in group.Items )
 			{
 				hash.Add( item.Icon?.Invoke() );
+				hash.Add( item.Label );
 				hash.Add( item.ToolTip );
 				hash.Add( item.Class );
 				hash.Add( item.Enabled );

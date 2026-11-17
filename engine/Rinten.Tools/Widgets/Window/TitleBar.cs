@@ -7,7 +7,7 @@ namespace Editor;
 internal class TitleBar : Widget
 {
 	//How tall the bar is, in the window's own pixels.
-	internal const float BarHeight = 30.0f;
+	internal const float BarHeight = 36.0f;
 
 	//The window this bar is the top of.
 	internal Widget Host { get; init; }
@@ -105,6 +105,15 @@ internal class TitleBar : Widget
 	{
 		if ( !OnPanels ) return;
 
+		//The bar is a flat shade darker than the window it tops, divided by one hairline - chrome, not a lit surface.
+		Paint.ClearPen();
+		Paint.SetBrush( Theme.WindowBackground );
+		Paint.DrawRect( LocalRect );
+
+		Paint.ClearBrush();
+		Paint.SetPen( Theme.Border );
+		Paint.DrawLine( new Vector2( LocalRect.Left, LocalRect.Bottom - 0.5f ), new Vector2( LocalRect.Right, LocalRect.Bottom - 0.5f ) );
+
 		//Not the main window: its bar is menus, tabs and buttons all the way across, and the name would be sat under them.
 		if ( Host is EditorMainWindow ) return;
 
@@ -138,14 +147,29 @@ internal class TitleBar : Widget
 
 		var trailing = MenuBar.IsValid() ? MenuBar.TrailingWidget : null;
 
-		//Two gaps where something sits in the right half of the strip - the editor's workspace tabs - because one of them alone is a few pixels to drag by.
+		//The strip in the right half of the bar - the editor's workspace tabs - is a row of buttons, not a place to drag.
+		//Only the squares are left out: the room the strip is centred or right-aligned in still drags the window, which is
+		//what keeps a press on a square from being taken by the window system while leaving somewhere to move the window.
 		if ( trailing.IsValid() && trailing.Visible )
 		{
 			var start = MenuBar.Position.x + trailing.Position.x;
-			var used = start + ContentWidth( trailing );
 
-			AddArea( into, ref count, left, MathF.Min( start, right ) );
-			AddArea( into, ref count, MathF.Max( used, left ), right );
+			ContentSpan( trailing, out var contentLeft, out var contentRight );
+
+			//Nothing measured yet - the strip has not been laid out or is empty. Leaving the whole of it out is the safe
+			//answer: it can only cost a drag area for one frame, where counting it as free would put a drag area over the buttons.
+			if ( contentRight <= contentLeft )
+			{
+				contentLeft = 0.0f;
+				contentRight = trailing.Size.x;
+			}
+
+			var from = MathF.Max( start + contentLeft, left );
+			var to = MathF.Max( start + contentRight, from );
+
+			//Before the squares, and after them, with a drag area only where there really is room.
+			AddArea( into, ref count, left, MathF.Min( from, right ) );
+			AddArea( into, ref count, MathF.Max( to, left ), right );
 
 			return;
 		}
@@ -161,22 +185,31 @@ internal class TitleBar : Widget
 		into[count++] = new Rect( from, 0, to - from, Size.y );
 	}
 
-	//How far along a widget its last child actually reaches.
-	private static float ContentWidth( Widget widget )
+	//Where a widget's pressable content begins and ends, from its own left edge.
+	private static void ContentSpan( Widget widget, out float left, out float right )
 	{
-		//Markup has no child widgets to measure
-		if ( widget is WorkspaceTabBar strip ) return strip.ContentWidth;
+		//Markup has no child widgets to measure, but it knows where its squares were laid out.
+		if ( widget is WorkspaceTabBar strip )
+		{
+			//ContentWidth is how far the last square reaches from the host's left edge, not how wide the run of squares is.
+			left = strip.ContentLeft;
+			right = strip.ContentWidth;
+			return;
+		}
 
-		var right = 0.0f;
+		left = 0.0f;
+		right = 0.0f;
 
 		foreach ( var child in widget.childWidgets )
 		{
 			if ( !child.IsValid() || !child.Visible ) continue;
 
+			left = right <= 0.0f ? child.Position.x : MathF.Min( left, child.Position.x );
 			right = MathF.Max( right, child.Position.x + child.Size.x );
 		}
 
-		return right;
+		//Nothing measured yet: the whole widget is treated as content, which is the safe answer for a press on a button.
+		if ( right <= 0.0f ) right = widget.Size.x;
 	}
 
 	//The gaps in the bar, in this widget's own pixels.
@@ -212,6 +245,10 @@ internal class TitleBar : Widget
 	//Whether what the bar holds has moved since its strips were last handed over.
 	private bool stripsMoved = true;
 
+	//The room the trailing strip had when the drag areas were last worked out. It is arranged after the bar is, so its first
+	//size arrives a frame late; watching it here means the strip's buttons are not left under a drag area for that frame.
+	private Vector2 trailingSizeShown;
+
 	//Something in the bar moved; strips are recomputed next frame once children are arranged
 	internal void StripsMoved()
 	{
@@ -237,6 +274,14 @@ internal class TitleBar : Widget
 	private protected override void OnWidgetFrame()
 	{
 		base.OnWidgetFrame();
+
+		//The trailing strip is a child laid out after the bar. Its size is what says where its buttons stop being a drag
+		//handle, so a change in it is a change in the drag areas even when nothing else in the bar moved.
+		if ( MenuBar.IsValid() && MenuBar.TrailingWidget is { IsValid: true, Visible: true } trailing && trailing.Size != trailingSizeShown )
+		{
+			trailingSizeShown = trailing.Size;
+			stripsMoved = true;
+		}
 
 		if ( !stripsMoved ) return;
 
@@ -447,7 +492,7 @@ internal sealed class WindowControl : Widget
 
 		this.pressed = pressed;
 
-		FixedSize = new Vector2( 44, TitleBar.BarHeight );
+		FixedSize = new Vector2( 46, TitleBar.BarHeight );
 	}
 
 	protected override void OnMouseClick( MouseEvent e )
@@ -463,9 +508,10 @@ internal sealed class WindowControl : Widget
 
 		if ( over )
 		{
+			Paint.Antialiasing = true;
 			Paint.ClearPen();
 			Paint.SetBrush( Shut ? Danger : Theme.VeilHover );
-			Paint.DrawRect( LocalRect );
+			Paint.DrawRect( LocalRect.Shrink( 5.0f, 5.0f ), Theme.ControlRadius );
 		}
 
 		Paint.ClearBrush();
@@ -479,7 +525,7 @@ internal sealed class WindowControl : Widget
 internal static class TitleBarPlate
 {
 	//How far in from the bar the plate sits.
-	private const float Inset = 3.0f;
+	private const float Inset = 4.0f;
 
 	/// <summary>The plate, at however much of it has arrived.</summary>
 	public static void Draw( Rect bar, float over, float on )
@@ -516,7 +562,7 @@ internal class TitleBarButton : Widget
 
 		Icon = icon;
 		Cursor = CursorShape.Finger;
-		FixedSize = new Vector2( 40, 32 );
+		FixedSize = new Vector2( 38, 36 );
 	}
 
 	protected override void OnMouseClick( MouseEvent e )
@@ -537,7 +583,7 @@ internal class TitleBarButton : Widget
 		//The icon comes up with the plate rather than sitting at full white on a bar of icons nobody is pointing at.
 		Paint.SetPen( Enabled ? Theme.InkDim.LerpTo( Theme.Ink, over ) : Theme.InkOff );
 
-		Paint.DrawIcon( LocalRect, Icon, 13.0f );
+		Paint.DrawIcon( LocalRect, Icon, 15.0f );
 	}
 }
 
@@ -582,7 +628,7 @@ public class TitleBarToggle : Widget
 	{
 		_onSet = onSet;
 		Cursor = CursorShape.Finger;
-		FixedSize = new Vector2( 40, 32 );
+		FixedSize = new Vector2( 38, 36 );
 	}
 
 	protected override void OnMouseClick( MouseEvent e )
@@ -612,7 +658,7 @@ public class TitleBarToggle : Widget
 		}
 		else
 		{
-			Paint.DrawIcon( LocalRect, Icon, 13.0f );
+			Paint.DrawIcon( LocalRect, Icon, 15.0f );
 		}
 	}
 

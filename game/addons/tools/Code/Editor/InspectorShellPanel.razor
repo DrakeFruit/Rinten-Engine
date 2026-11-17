@@ -16,7 +16,11 @@
 	<div class="body">
 		@if ( !HasObject )
 		{
-			<div class="empty">No object selected.</div>
+			<div class="empty">
+				<i>ads_click</i>
+				<div class="caption">No object selected.</div>
+				<div class="hint">Select something in the hierarchy to inspect it.</div>
+			</div>
 		}
 		<div class="content" @ref="Content"></div>
 	</div>

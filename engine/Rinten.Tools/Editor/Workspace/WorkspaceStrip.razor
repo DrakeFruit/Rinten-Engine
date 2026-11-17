@@ -50,6 +50,7 @@
 	readonly List<Slot> _slots = new();
 	List<string> _pinned;
 	float _width;
+	float _contentLeft;
 
 	/// <summary>The widget this strip sits in; menus open from it.</summary>
 	internal WorkspaceTabBar Host { get; init; }
@@ -195,19 +196,39 @@
 	/// <summary>How far along the host widget the squares reach, in its pixels.</summary>
 	internal float ContentWidth => _width;
 
+	/// <summary>Where the first square starts, from the host's own left edge. The strip may be centred or right-aligned
+	/// in the room it is given, so the drag areas need the left as well as the width - otherwise the empty room between
+	/// the edge and the squares is counted as part of the squares, or the squares are counted as part of the drag area.</summary>
+	internal float ContentLeft => _contentLeft;
+
 	public override void FinalLayout( Vector2 offset )
 	{
 		base.FinalLayout( offset );
 
+		var left = float.MaxValue;
 		var right = Box.Rect.Left;
 
 		foreach ( var child in Children )
+		{
+			left = MathF.Min( left, child.Box.Rect.Left );
 			right = MathF.Max( right, child.Box.Rect.Right );
+		}
 
-		var width = MathF.Round( (right - Box.Rect.Left) * ScaleFromScreen );
+		if ( left == float.MaxValue )
+			left = Box.Rect.Left;
 
-		if ( width == _width ) return;
+		//Measured from the host's left edge, because that is where the title bar starts the strip. The strip's own
+		//panel can be narrower than its host and sit at the end of it, so its own left is not the origin to use.
+		var origin = Host is { IsValid: true, Surface: { IsValid: true } hostSurface } host
+			? hostSurface.Box.Rect.Left
+			: Box.Rect.Left;
 
+		var contentLeft = MathF.Max( 0.0f, MathF.Round( (left - origin) * ScaleFromScreen ) );
+		var width = MathF.Max( 0.0f, MathF.Round( (right - origin) * ScaleFromScreen ) );
+
+		if ( width == _width && contentLeft == _contentLeft ) return;
+
+		_contentLeft = contentLeft;
 		_width = width;
 		Resized?.Invoke();
 	}

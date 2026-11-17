@@ -38,11 +38,48 @@ InspectorShellPanel > .body
 	min-width: 0;
 }
 
+//A card where the inspector would be, rather than a line of text on the window: the same empty-state grammar the launcher
+//uses, so a fresh session reads as a place waiting for a selection rather than as a panel that failed to load.
 InspectorShellPanel > .body > .empty
 {
-	padding: 12px;
-	color: $ink-dim;
-	font-size: $type-body;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	margin: 10px;
+	padding: 28px 18px;
+	gap: 4px;
+
+	background-color: $card;
+	border: 1px solid $edge;
+	border-radius: 9px;
+	box-shadow: $shadow-card;
+
+	color: $ink-faint;
+	font-size: $type-small;
+
+	> i
+	{
+		font-size: 34px;
+		color: rgba( $accent, 0.7 );
+		margin-bottom: 4px;
+	}
+
+	> .caption
+	{
+		font-size: $type-body;
+		font-weight: 500;
+		color: $ink-dim;
+	}
+
+	> .hint
+	{
+		max-width: 250px;
+
+		font-size: $type-small;
+		color: $ink-off;
+		text-align: center;
+	}
 }
 
 InspectorShellPanel > .body > .content

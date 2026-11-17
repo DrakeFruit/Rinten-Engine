@@ -23,25 +23,26 @@ WorkspaceStrip,
 		background-color: $base-alt;
 		border: 1px solid $border;
 		border-top-color: $border-light;
-		border-radius: $radius-1;
+		border-radius: 7px;
 
 		//Always white; hover and pick change only the plate under it
 		> i
 		{
 			font-family: Material Icons;
-			font-size: 24px;
+			font-size: 21px;
 			color: $ink;
 		}
 
 		&:hover
 		{
-			background-color: lighten( $base-alt, 0.35 );
+			background-color: $tile-hover;
+			border-color: $border-light;
 		}
 
 		&.current
 		{
 			background-color: $picked;
-			border-color: $accent;
+			border-color: $picked;
 		}
 
 		//Open document count, bottom right

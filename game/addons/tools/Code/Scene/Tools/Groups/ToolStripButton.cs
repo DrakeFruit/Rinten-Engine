@@ -2,7 +2,7 @@ using Rinten.UI;
 
 namespace Editor;
 
-/// <summary>Tool strip button: icon and lit state; picture icons are tinted white</summary>
+/// <summary>Tool strip button: icon, badge and lit state; picture icons are tinted white</summary>
 public sealed class ToolStripButton : Panel
 {
 	private readonly IToolCommand command;

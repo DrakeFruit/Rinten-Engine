@@ -6,56 +6,56 @@
 $scrim: rgba( 0, 0, 0, 0.5 );
 
 //What a popup is made of: a menu, a tooltip, a dialog.
-$glass: rgba( 5, 5, 10, 0.75 );
+$glass: rgba( 10, 14, 19, 0.82 );
 
 //The same, denser - for when there is a lot of text on it.
-$glass-deep: rgba( 5, 5, 10, 0.9 );
+$glass-deep: rgba( 8, 12, 17, 0.94 );
 
 //A whole window of glass, thinner than a popup.
-$pane: rgba( 5, 5, 10, 0.5 );
+$pane: rgba( 10, 14, 19, 0.58 );
 
-//The ground the editor is drawn on. Opaque, because there is nothing behind the window;
-//neutral, because a tint at this brightness reads as a colour cast over the whole screen.
-$solid: #08080b;
+//The ground the editor is drawn on. Opaque, because there is nothing behind the window; a blue-black
+//slate rather than a neutral one, which is what gives the chrome its Steam-like cast without washing out the viewport.
+$solid: #0d1117;
 
 //The ground a window's panels lie on. One surface; pieces are told apart by hairlines and room rather than by sitting on a different darkness.
-$ground: #08080b;
+$ground: #12171e;
 
 //The window ground behind all transparent docks and bars; the darkest thing
-$window-ground: #1f1f1f;
+$window-ground: #151a21;
 
 //A pane laid on the page: a side, a bar, a surface with its own contents - the half of the launcher the projects are on.
-$panel-ground: #333333;
+$panel-ground: #1e242c;
 
 //The ends of a gradient ground, for anything that wants one. Nothing does.
-$ground-top: #17171d;
-$ground-bottom: #0b0b10;
+$ground-top: #1a222b;
+$ground-bottom: #12171e;
 
 //── cards: a step up from what they lie on; only real cards, never whole panels or rows
 
-$tile: #444444;
-$tile-hover: #4a4a4c;
-$tile-down: #3a3a3c;
+$tile: #26303a;
+$tile-hover: #2e3945;
+$tile-down: #202832;
 
 //An inspector card - a component, a project in the launcher: darker than its pane, edged in $edge with an $edge-lit top
-$card: #2a2a2a;
-$card-hover: #303030;
-$card-down: #262626;
+$card: #202730;
+$card-hover: #26303a;
+$card-down: #1b222a;
 
 //A button standing on a card: the four little squares at the end of a project in the launcher. One more step
 //up, and a grey leaning to the accent when it is on - a blue-grey, turned green at the same brightness.
-$chip: #525254;
-$chip-hover: #5c5c5e;
-$chip-on: #555f42;
+$chip: #2f3b47;
+$chip-hover: #3a4856;
+$chip-on: #3d4a2c;
 
 //A plate standing on the page itself rather than on a pane - the rows down the launcher's side.
 //Only a breath lighter than the page, because the page is already the darkest thing there is.
-$ground-plate: #363638;
-$ground-plate-hover: #3e3e40;
+$ground-plate: #1a2028;
+$ground-plate-hover: #232c36;
 
 //Picked: the row that says where you are. A green-grey plate with the accent written on it, the one
 //place a ground is coloured - #48566a turned to the accent's hue at the same brightness.
-$picked: #505a3c;
+$picked: #3c4a2b;
 
 //Where you are, or what is on: the plate, and the words and glyphs on it left white - the user, 09-14: the
 //colour is the plate's, never the text's. No bar down the side and no wash: the plate is the whole of it.
@@ -68,8 +68,8 @@ $picked: #505a3c;
 //── the wash: what appears behind something you are pointing at ─────────────
 
 $veil: rgba( 255, 255, 255, 0.04 );
-$veil-hover: rgba( 255, 255, 255, 0.06 );
-$veil-down: rgba( 255, 255, 255, 0.1 );
+$veil-hover: rgba( 255, 255, 255, 0.07 );
+$veil-down: rgba( 255, 255, 255, 0.11 );
 
 //What is on: a wash and a bar of white beside it.
 $on: rgba( 255, 255, 255, 0.1 );
@@ -77,20 +77,20 @@ $on: rgba( 255, 255, 255, 0.1 );
 //── edges: hairlines, and they say something ──────────────────────────────── opaque like everything
 //else in that palette: a line of grey rather than a wash of white, so an edge is the same line whatever it happens to lie on.
 
-$edge-soft: #3e3e3e;
-$edge: #3e3e3e;
-$edge-lit: #484848;
+$edge-soft: #222b35;
+$edge: #2a3541;
+$edge-lit: #3b4856;
 
 //What is on, and what the keyboard is pointed at: white outright.
 $edge-focus: rgba( 255, 255, 255, 0.8 );
 
 //── the plate: what pressable things are made of; lighter than the ground, no outline
 
-$slab: #444444;
-$slab-hover: #4a4a4c;
-$slab-down: #3a3a3c;
+$slab: #2b3641;
+$slab-hover: #364350;
+$slab-down: #26313b;
 
-$slab-radius: 4px;
+$slab-radius: 6px;
 
 //Everything pressable, in one place.
 @mixin slab
@@ -119,24 +119,24 @@ $accent-fill: #8DB53E;
 $green: #8DB53E;
 
 //No. Not a pure red - on greys this dark that reads as an error dialog rather than as a state.
-$red: #D4574E;
+$red: #E15B5B;
 
 //Careful, and kept. A warm gold rather than a yellow: yellow on this grey is a highlighter
 //pen, and what this marks is something somebody chose to keep in front of them.
-$gold: #E0B252;
+$gold: #E5C26B;
 
 //── depth ───────────────────────────────────────────────────────────────────
 
-$shadow-card: 0px 2px 12px rgba( 0, 0, 0, 0.4 );
-$shadow-float: 0px 12px 40px rgba( 0, 0, 0, 0.7 );
+$shadow-card: 0px 2px 12px rgba( 0, 0, 0, 0.35 );
+$shadow-float: 0px 14px 44px rgba( 0, 0, 0, 0.72 );
 
 //── the frame: hairline, dark inner band and soft shadow for windows over the editor
 
-$frame-line: #363636;
-$frame-gap: #1a1a1a;
-$frame-radius: 8px;
+$frame-line: #33404e;
+$frame-gap: #0d1117;
+$frame-radius: 10px;
 
-$shadow-window: 0px 6px 32px rgba( 0, 0, 0, 0.6 );
+$shadow-window: 0px 8px 36px rgba( 0, 0, 0, 0.64 );
 
 //A window over the editor: the launcher, a question.
 @mixin frame
@@ -163,13 +163,13 @@ $seam: 1px;
 //── shape: three corner radii and a pill; $radius-2 matches the theme's control radius
 
 //A chip, a swatch, a tag: small enough that more would read as a lozenge.
-$radius-1: 3px;
+$radius-1: 4px;
 
 //The default, and what a control wears - see $control-radius in the theme.
-$radius-2: 4px;
+$radius-2: 6px;
 
 //A card, a popup, a panel with its own edges.
-$radius-3: 6px;
+$radius-3: 9px;
 
 //Round: a badge with a letter in it, a dot, anything meant to be a circle. Written as a number bigger
 //than the box rather than as a half of it, so it stays round whatever size the box turns out to be.

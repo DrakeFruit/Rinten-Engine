@@ -478,4 +478,34 @@ public class BackgroundPropertiesTest
 		s.Set( "background", "#fff url(/x.png) no-repeat" );
 		Assert.AreEqual( new Color( 1, 1, 1, 1 ), s.BackgroundColor.Value );
 	}
+
+	//The renderer places pictures against a rect in screen pixels, so a background written in units has to scale
+	//with the display like every other length - or a baked widget background came out smaller than its panel.
+	[TestMethod]
+	public void BackgroundSizeAndPosition_ScaleWithTheDisplay()
+	{
+		var s = new Styles();
+		Assert.IsTrue( s.Set( "background-size", "80px 40px" ) );
+		Assert.IsTrue( s.Set( "background-position", "10px 20px" ) );
+
+		s.ApplyScale( 1.25f );
+
+		Assert.AreEqual( 100.0f, s.BackgroundSizeX!.Value.GetPixels( 1 ), 0.01f );
+		Assert.AreEqual( 50.0f, s.BackgroundSizeY!.Value.GetPixels( 1 ), 0.01f );
+		Assert.AreEqual( 13.0f, s.BackgroundPositionX!.Value.GetPixels( 1 ), 0.01f, "lengths snap up to whole pixels" );
+		Assert.AreEqual( 25.0f, s.BackgroundPositionY!.Value.GetPixels( 1 ), 0.01f );
+	}
+
+	//Percentages are relative to the panel and must not be scaled, which is what a live texture (Percent( 100 )) relies on.
+	[TestMethod]
+	public void BackgroundSize_PercentIsNotScaled()
+	{
+		var s = new Styles();
+		Assert.IsTrue( s.Set( "background-size", "100% 50%" ) );
+
+		s.ApplyScale( 1.25f );
+
+		Assert.AreEqual( 200.0f, s.BackgroundSizeX!.Value.GetPixels( 200 ), 0.01f );
+		Assert.AreEqual( 100.0f, s.BackgroundSizeY!.Value.GetPixels( 200 ), 0.01f );
+	}
 }

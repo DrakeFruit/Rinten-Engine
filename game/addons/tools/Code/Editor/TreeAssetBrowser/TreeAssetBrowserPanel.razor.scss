@@ -29,11 +29,7 @@
 			width: 1px;
 			pointer-events: none;
 
-			background-image: linear-gradient( to bottom,
-				transparent,
-				$edge-lit 12%,
-				$edge-lit 88%,
-				transparent );
+			background-color: $edge-lit;
 		}
 	}
 

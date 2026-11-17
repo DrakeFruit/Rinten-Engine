@@ -394,6 +394,9 @@ internal sealed class WorkspaceTabBar : PanelWidget
 
 	/// <summary>How far along this widget the squares reach.</summary>
 	public float ContentWidth => _strip.ContentWidth;
+
+	/// <summary>Where the squares start, from this widget's own left edge.</summary>
+	public float ContentLeft => _strip.ContentLeft;
 }
 
 //An open workspace and its editor; never drawn, parented to the strip only for lifetime

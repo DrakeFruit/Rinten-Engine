@@ -8,9 +8,9 @@ public static partial class Theme
 	public static Color Pane => SurfaceBackground;
 
 	/// <summary>A card: a badge, a section, a slot on a pane. A step up from whatever it lies on, and no more - a card that is much lighter than its pane reads as a second window inside the first.</summary>
-	public static Color Tile => SurfaceBackground;
+	public static Color Tile => SurfaceLightBackground;
 
-	public static Color TileHover => SurfaceLightBackground;
+	public static Color TileHover => SurfaceLightBackground.Lighten( 0.08f );
 
 	public static Color TileDown => Base;
 
@@ -39,7 +39,7 @@ public static partial class Theme
 	/// <summary>Fill for pressable things (button, tab, header), same as $slab; not for grounds</summary>
 	public static Color Slab => ButtonBackground;
 
-	public static Color SlabHover => SurfaceBackground;
+	public static Color SlabHover => ButtonBackground.Lighten( 0.14f );
 
 	public static Color SlabDown => Base;
 
@@ -64,8 +64,8 @@ public static partial class Theme
 
 	//On state is a lighter grey plus an accent bar; colour is reserved for meaning
 
-	/// <summary>The fill of something that is on: a lit toolbar button, an open tab.</summary>
-	public static Color OnFill => SurfaceBackground;
+	/// <summary>The fill of something that is on: a lit toolbar button, an open tab. The picked plate, as everywhere else.</summary>
+	public static Color OnFill => SelectedBackground;
 
 	/// <summary>The bar of accent beside it, which is what says so from across the window.</summary>
 	public static Color OnEdge => Primary;
