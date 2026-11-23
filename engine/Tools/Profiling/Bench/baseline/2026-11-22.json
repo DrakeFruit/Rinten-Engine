@@ -1,0 +1,168 @@
+{
+  "date": "2026-11-22",
+  "label": "phase0-2026-11-22",
+  "commit": "caf11adfdc4b0f3bc089712ec00b1e11cdcb22ea",
+  "dirty": [
+    " M engine/Benchmark/Benchmark.cs",
+    " M engine/Porting/Rinten.Porting/SceneUnits.cs",
+    " M engine/Rinten.Engine/Core/Backend/Render/CoreShaderCache.cs",
+    " M engine/Rinten.Engine/Resources/Animation/Graph/AnimGraphBuilder.cs",
+    " M engine/Rinten.Engine/Scene/Components/Audio/SoundscapeTrigger.cs",
+    " M engine/Rinten.Engine/Scene/Components/PostProcessing/PostProcessVolume.cs",
+    " M engine/Rinten.Engine/Scene/GameObject/GameTags/GameTags.cs",
+    " M engine/Rinten.Engine/Services/Packages/Package.Static.cs",
+    " M engine/Rinten.Hotload/StructArrayConverter.cs",
+    " M engine/Rinten.Tools/ControlWidget/IntegerControlWidget.cs",
+    " M engine/RintenUI",
+    " M engine/Tests/Rinten.Test.Engine/Assembly.cs",
+    " M engine/Tests/Rinten.Test.Engine/Core/EditorWidgetsOnPanels.cs",
+    " M engine/Tests/Rinten.Test.Engine/Core/EditorWindowClosing.cs",
+    " M engine/Tests/Rinten.Test.Engine/Core/ShaderCache.cs",
+    " M engine/Tests/Rinten.Test.Engine/Editor/ExportPlatform.cs",
+    " M engine/Tests/Rinten.Test.Engine/Scene/Components/PostProcessState.cs",
+    " M engine/Tests/Rinten.Test.Engine/Scene/Components/PureComponentState.cs",
+    " M engine/Tests/Rinten.Test.Integration/Filesystem/FileSystem.cs",
+    " M engine/Tests/Rinten.Test.Unit/Compiling/CodeGen.cs",
+    " M engine/Tests/Rinten.Test.Unit/Compiling/CompilerTest.cs",
+    " M engine/Tests/Rinten.Test.Unit/Core/AnimIkChains.cs",
+    " M engine/Tools/Profiling/Bench/bench.sh",
+    " M engine/Tools/Profiling/Bench/scenes.sh",
+    "?? engine/Benchmark/Benchmarks/Physics/",
+    "?? engine/Benchmark/Benchmarks/Scene/",
+    "?? engine/Tests/Fixtures/BenchProject/",
+    "?? engine/Tools/Profiling/Bench/README.md",
+    "?? engine/Tools/Profiling/Bench/baseline/",
+    "?? engine/Tools/Profiling/Bench/phase0.sh"
+  ],
+  "machine": {
+    "os": "CachyOS",
+    "kernel": "7.3.5-2-cachyos",
+    "cpu": "AMD Ryzen 7 7800X3D 8-Core Processor",
+    "cores": "8",
+    "memory": "30 GB",
+    "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Navi 48 [Radeon RX 9070/9070 XT/9070 GRE] [1002:7550] (rev c0)",
+    "driver": "radv",
+    "vulkan_validation": "missing",
+    "wayland_display": "wayland-1",
+    "sdk": "11.0.100",
+    "runtime": "11.0.0"
+  },
+  "conditions": {
+    "tree": "phase0",
+    "bench_set": "core",
+    "frames": 1500,
+    "warmup_seconds": 20,
+    "compositor": "current Wayland session (BENCH_NO_COMPOSITOR=1)"
+  },
+  "builds_seconds": {
+    "tree": 43.66,
+    "managed_warm": 52.61,
+    "shaders": 4.05,
+    "first_project_open": 22.62
+  },
+  "commands": {
+    "tree": "BENCH_SET=core bench.sh tree phase0",
+    "measure": "BENCH_SET=core bench.sh run -t phase0 -l phase0-2026-11-22 -f 1500 -w 20 --no-check",
+    "check": "BENCH_SET=core bench.sh run -t phase0 -l phase0-2026-11-22-check -f 200 -w 10"
+  },
+  "scenes": {
+    "minimal": {
+      "fps": 3156.0,
+      "typical_ms": 0.2,
+      "gpu_ms": 0.19,
+      "validation": {
+        "on": false,
+        "errors": 0,
+        "warnings": 0
+      },
+      "zones": {
+        "cull": 0.0,
+        "depth": 0.003,
+        "sky": 0.018,
+        "compose": 0.018
+      },
+      "check": null
+    },
+    "objects-100k": {
+      "fps": 1120.0,
+      "typical_ms": 0.63,
+      "gpu_ms": 0.62,
+      "validation": {
+        "on": false,
+        "errors": 0,
+        "warnings": 0
+      },
+      "zones": {
+        "cull": 0.16,
+        "cull cells": 0.002,
+        "cull instances": 0.05,
+        "cull clusters": 0.101,
+        "depth": 0.1,
+        "materials": 0.161,
+        "sky": 0.006,
+        "compose": 0.018
+      },
+      "check": null
+    },
+    "objects-10k": {
+      "fps": 2915.0,
+      "typical_ms": 0.31,
+      "gpu_ms": 0.29,
+      "validation": {
+        "on": false,
+        "errors": 0,
+        "warnings": 0
+      },
+      "zones": {
+        "cull": 0.032,
+        "cull instances": 0.004,
+        "cull clusters": 0.024,
+        "depth": 0.04,
+        "materials": 0.062,
+        "sky": 0.004,
+        "compose": 0.013
+      },
+      "check": null
+    },
+    "objects-1k": {
+      "fps": 4041.0,
+      "typical_ms": 0.22,
+      "gpu_ms": 0.21,
+      "validation": {
+        "on": false,
+        "errors": 0,
+        "warnings": 0
+      },
+      "zones": {
+        "cull": 0.022,
+        "cull instances": 0.003,
+        "cull clusters": 0.014,
+        "depth": 0.026,
+        "materials": 0.031,
+        "sky": 0.006,
+        "compose": 0.011
+      },
+      "check": null
+    },
+    "physics": {
+      "fps": 2253.0,
+      "typical_ms": 0.43,
+      "gpu_ms": 0.34,
+      "validation": {
+        "on": false,
+        "errors": 0,
+        "warnings": 0
+      },
+      "zones": {
+        "cull": 0.032,
+        "cull instances": 0.005,
+        "cull clusters": 0.02,
+        "depth": 0.042,
+        "materials": 0.101,
+        "sky": 0.002,
+        "compose": 0.011
+      },
+      "check": null
+    }
+  }
+}

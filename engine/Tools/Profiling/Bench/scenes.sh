@@ -6,6 +6,10 @@
 : "${BENCH_MY_PROJECT_2:=$HOME/Documents/Rinten Projects/my_project_2}"
 : "${BENCH_TEST_GROUND:=$HOME/Documents/GitHub/Rinten-Test-Ground}"
 
+# The self-contained project this repo ships for Phase 0: its scenes are made at runtime by
+# BenchProject.StressField / PhysicsField, so nothing outside the engine is needed.
+: "${BENCH_CORE:=$REPO/engine/Tests/Fixtures/BenchProject}"
+
 SCENES=(
 	# Next to nothing: sky, ground, a few lit cubes. What the frame costs when the
 	# world costs nothing - passes, barriers, the window.
@@ -57,4 +61,22 @@ if [ "${BENCH_SET:-}" = scale ]; then
 
 	# One scene mesh 256 m across, cut fine - the cut of scene meshes by cells.
 	SCENES+=( "bigfloor|$BENCH_MY_PROJECT|scenes/bigfloor.scene|0,6,0,15,45" )
+fi
+
+# The Phase 0 baseline: the engine's own fixture project, whose scenes are generated at runtime
+# by BenchProject.StressField and PhysicsField. Nothing but this repo is needed, so the numbers
+# reproduce on any clone.
+if [ "${BENCH_SET:-}" = core ]; then
+	SCENES=(
+		# Sky, sun and a camera: the cost of a frame with nothing in it.
+		"minimal|$BENCH_CORE|scenes/minimal.scene|"
+
+		# A centred grid of static model cubes, 32 x 32 to 317 x 317, seen from above the near edge.
+		"objects-1k|$BENCH_CORE|scenes/objects_1k.scene|0,35,75,25,0"
+		"objects-10k|$BENCH_CORE|scenes/objects_10k.scene|0,90,190,25,0"
+		"objects-100k|$BENCH_CORE|scenes/objects_100k.scene|0,260,560,25,0"
+
+		# Rigid bodies and box colliders dropped onto a floor, 1000 of them.
+		"physics|$BENCH_CORE|scenes/physics.scene|0,30,70,25,0"
+	)
 fi

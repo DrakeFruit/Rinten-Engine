@@ -4,6 +4,12 @@ using BenchmarkDotNet.Running;
 
 public class Program
 {
+	//The scene and physics benches are quick to run by hand; a short job keeps a check to a minute or two.
+	private static IConfig ShortConfig => ManualConfig
+			.Create( DefaultConfig.Instance )
+			.WithOptions( ConfigOptions.JoinSummary | ConfigOptions.DisableLogFile )
+			.AddJob( Job.ShortRun );
+
 	public static void Main( string[] args )
 	{
 		var config = ManualConfig
@@ -26,6 +32,24 @@ public class Program
 		if ( args.Length > 1 && args[0] == "catalog" )
 		{
 			Benchmarks.Assets.ImportCatalogBenchmarks.Run( args[1] );
+			return;
+		}
+
+		if ( args.Length > 0 && args[0] == "scene" )
+		{
+			BenchmarkRunner.Run<Benchmarks.Scenes.GameObjectBenchmarks>( ShortConfig );
+			return;
+		}
+
+		if ( args.Length > 0 && args[0] == "components" )
+		{
+			BenchmarkRunner.Run<Benchmarks.Scenes.ComponentBenchmarks>( ShortConfig );
+			return;
+		}
+
+		if ( args.Length > 0 && args[0] == "physics" )
+		{
+			BenchmarkRunner.Run<Benchmarks.Physics.PhysicsBenchmarks>( ShortConfig );
 			return;
 		}
 

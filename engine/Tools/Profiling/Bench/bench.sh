@@ -65,6 +65,20 @@ reap_dead_sessions() {
 # A headless compositor of our own to run in, so a measured window is never the
 # desktop's and a crash takes nothing of the desktop with it.
 ensure_display() {
+	# Where gnome-shell is not installed - a plain KWin session, say - a run can use the
+	# session it is already in instead. Opted into, because a fullscreen measured window
+	# then sits on the desktop somebody is using.
+	if [ "${BENCH_NO_COMPOSITOR:-0}" = 1 ]; then
+		DISPLAY_NAME=${BENCH_WAYLAND_DISPLAY:-${WAYLAND_DISPLAY:-wayland-1}}
+		[ -S "/run/user/$(id -u)/$DISPLAY_NAME" ] || \
+			die "BENCH_NO_COMPOSITOR=1 but there is no Wayland display at /run/user/$(id -u)/$DISPLAY_NAME - set BENCH_WAYLAND_DISPLAY"
+		return 0
+	fi
+
+	if ! command -v gnome-shell >/dev/null 2>&1; then
+		die "gnome-shell is not installed, so the headless compositor cannot start - set BENCH_NO_COMPOSITOR=1 to measure in the current Wayland session (WAYLAND_DISPLAY=${WAYLAND_DISPLAY:-unset})"
+	fi
+
 	local socket="/run/user/$(id -u)/$DISPLAY_NAME"
 
 	# A compositor holds its socket's lock for as long as it lives. One killed hard leaves both files behind, and
