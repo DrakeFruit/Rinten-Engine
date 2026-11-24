@@ -59,20 +59,54 @@ i,
 //── the window you can see through ── With desktop transparency, the floor is not drawn
 .glass
 {
-	//The window surface itself must paint nothing, or its solid ground covers the blur the root asked the desktop for.
+	//Grounds: the window and its docks paint nothing, so the root's glass shows through every app and workspace.
 	.surface,
 	.window,
+	.dockwidget,
 	.treebrowserwidget
 	{
 		background-color: transparent;
 	}
 
-	//A well on glass: the asset tree and grid keep the blur but darken it enough for tiles and text to read.
+	//Wells: logs, profiler, the asset tree and the tile grid keep the blur but darken it enough for text and tiles to read.
 	.asset-browser-panel,
 	.icon-grid-panel,
-	.icon-grid-canvas
+	.icon-grid-canvas,
+	.well,
+	.console,
+	.console-detail,
+	.profiler
 	{
 		background-color: $well-glass;
+	}
+
+	//Bars over the scene and the docks: a thin white veil, not a ground.
+	.dock-bar,
+	.panel-toolbar,
+	.panel-list-header,
+	.panel-list-row.section,
+	.panel-stats-bar,
+	.viewport-tools,
+	.viewport-toolbar,
+	.console-detail > .head
+	{
+		background-color: $bar-glass;
+	}
+
+	//App pages that used to lay down the panel grey now sit on the same glass as the docks.
+	.material-sheet,
+	.action-properties,
+	.error-list,
+	.movie-editor,
+	.movie-section
+	{
+		background-color: transparent;
+	}
+
+	//The tool sidebar's settings plate sits over the scene rather than the desktop, so it takes a translucent plate, not an opaque one.
+	.tool-sidebar > .middle > .settings
+	{
+		background-color: $window-glass;
 	}
 }
 
