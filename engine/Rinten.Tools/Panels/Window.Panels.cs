@@ -125,7 +125,7 @@ public partial class Window
 		//Always draw our own title bar and open without the window system's
 		var caption = OwnCaption;
 
-		//Whichever this window said it was. The main editor window says it is not glass, and that is the one that could not afford to be.
+		//Whichever this window said it was. Whether the desktop can blur behind it is the window's own answer, not this one's.
 		var heading = string.IsNullOrWhiteSpace( WindowTitle ) ? title : WindowTitle;
 
 		//The bar is TitleBar, one row with the menus and the window buttons in it.
@@ -154,11 +154,12 @@ public partial class Window
 
 		//And what kind of window it is, so the sheet can tell. A surface in a window that is glass has to paint nothing, or the ground it
 		//would otherwise lay down covers the very blur the window was opened for - which is what made a see-through dialog come out black.
-		shell.Root.SetClass( "glass", shell.Composited );
+		//Glass is the desktop's blur, not merely an alpha: a window that only has the alpha is still solid behind its rounded corners.
+		shell.Root.SetClass( "glass", shell.Blurred );
 
 		//And the other way round, for the desktop that gave us nothing: there the window is solid, so
 		//the panels inside it lay down their own glass rather than showing a blur that is not there.
-		shell.Root.SetClass( "solid", !shell.Composited );
+		shell.Root.SetClass( "solid", !shell.Blurred );
 
 		//First composited non-dialog window hosts dialogs, since stacked sheets can't blur each other
 		if ( shell.Composited && !IsDialog ) CoreUiWindow.Inside ??= shell;

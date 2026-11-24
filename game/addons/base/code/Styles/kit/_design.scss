@@ -59,9 +59,20 @@ i,
 //── the window you can see through ── With desktop transparency, the floor is not drawn
 .glass
 {
-	.surface
+	//The window surface itself must paint nothing, or its solid ground covers the blur the root asked the desktop for.
+	.surface,
+	.window,
+	.treebrowserwidget
 	{
 		background-color: transparent;
+	}
+
+	//A well on glass: the asset tree and grid keep the blur but darken it enough for tiles and text to read.
+	.asset-browser-panel,
+	.icon-grid-panel,
+	.icon-grid-canvas
+	{
+		background-color: $well-glass;
 	}
 }
 
@@ -1644,6 +1655,13 @@ textentry,
 	}
 }
 
+//On a glass window the inspector keeps its dark card fill. A white veil lifts bars, but on a card it reads as a lit, washed-out panel.
+.glass .inspector-head,
+.glass .inspector-card
+{
+	background-color: $base-alt;
+}
+
 //The bar across the top of a card, left to right: the card's glyph in a cell of its own, its switch, its name, then the fold arrow and a menu at
 //the far end. The cells are parted by the same dark groove that runs under the bar. Children are added in another order, so `order` places them.
 .inspector-card-header
@@ -1654,7 +1672,7 @@ textentry,
 	padding: 0px 3px 0px 0px;
 	min-height: 28px;
 	flex-shrink: 0;
-	background-color: $panel-background;
+	background-color: $base;
 	border-bottom: 1px solid $sunken;
 	border-top-left-radius: $radius-1;
 	border-top-right-radius: $radius-1;
@@ -1668,7 +1686,7 @@ textentry,
 	//The whole bar is pressed to fold the card away, so it says so under the pointer like everything else does.
 	&:hover
 	{
-		background-color: #3a3a3a;
+		background-color: $base-alt;
 	}
 
 	> .chevron,
@@ -1814,7 +1832,8 @@ textentry,
 .dockwidget.dock-scenetreewidget,
 .dockwidget.dock-modeloutliner,
 .dockwidget.dock-effecttree,
-.dockwidget.dock-hierarchy
+.dockwidget.dock-hierarchy,
+.dockwidget.dock-treeassetbrowser
 {
 	background-color: transparent;
 }
@@ -1824,7 +1843,7 @@ textentry,
 .tabbar,
 .tabbarwidget
 {
-	background-color: $window-ground;
+	background-color: $window-glass;
 }
 
 //The window's bars have no backing of their own: they stand on the header's dark, which is the window itself.

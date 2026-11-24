@@ -15,7 +15,7 @@ public class EditorMainWindow : DockWindow, IUndoSystemProvider
 
 	internal ConsoleDock Console => ConsoleDock.Instance;
 
-	//Glass: the UI rides a per-pixel alpha overlay, so the viewport stays solid and only gaps blur
+	//Glass: the UI rides a per-pixel alpha surface, so the viewport stays solid and only the ground between panels blurs
 	protected override bool IsGlass => true;
 
 	//The first time the editor is opened on a machine there is nothing saved about where its window goes, and it fills the screen.

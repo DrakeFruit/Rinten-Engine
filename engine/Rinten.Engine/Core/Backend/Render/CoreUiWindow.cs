@@ -30,6 +30,9 @@ internal sealed class CoreUiWindow : IDisposable
 	/// <summary>Whether it got it. False until there is a swapchain to ask.</summary>
 	public bool Composited { get; private set; }
 
+	/// <summary>Whether the desktop is blurring what is behind the window - real glass, rather than a see-through window with a sharp desktop in it.</summary>
+	public bool Blurred { get; private set; }
+
 	/// <summary>Whether the desktop took the corners off it for us.</summary>
 	public bool Rounded { get; private set; }
 
@@ -57,9 +60,10 @@ internal sealed class CoreUiWindow : IDisposable
 	//When this window last drew, on the monotonic clock.
 	private long framedAt;
 
-	//See-through windows are off: blur only exists on Windows, so every window is opaque everywhere
-	//Not a const, or the compiler flags the glass path as unreachable code, an error in this build
-	internal static readonly bool GlassEnabled;
+	//See-through windows are asked for on Linux, where a Wayland compositor can blur behind one; each window still
+	//has to get that answer from the desktop itself - see Blurred. Not a const, or the compiler flags the glass path
+	//as unreachable code, an error in this build
+	internal static readonly bool GlassEnabled = OperatingSystem.IsLinux();
 	private (int Width, int Height) attached;
 	private readonly UiWindowInput input = new();
 
@@ -895,9 +899,6 @@ internal sealed class CoreUiWindow : IDisposable
 			sheet = asSheet,
 			named = title,
 
-			//A notice always wants it; anything else has to ask. Whether it can have it is the desktop's answer - see Composited.
-			wantsGlass = GlassEnabled && ( utility || ( glass && !asSheet ) ),
-
 			//The startup bar draws a rounded plate over the whole of itself, so there is nothing for this window to lay down under it.
 			shapedByContent = utility,
 		};
@@ -913,6 +914,14 @@ internal sealed class CoreUiWindow : IDisposable
 
 		//Round the corners wherever the desktop supports it; it squares them again while maximised
 		made.Rounded = window.RoundCorners();
+
+		//A notice always wants glass; anything else has to ask. Whether the desktop will blur behind it is the window's
+		//answer to make, not ours: the same request that gets glass on KWin gets nothing on a desktop without the protocol,
+		//and there the window stays solid rather than becoming a sharp hole in the screen.
+		if ( GlassEnabled && !asSheet && ( utility || glass ) )
+			made.Blurred = window.MakeBlurBehind();
+
+		made.wantsGlass = made.Blurred;
 
 		//Ask for alpha wherever the desktop won't round corners for us, so we can cut them ourselves
 		made.wantsAlpha = made.wantsGlass || ( !made.Rounded && !asSheet );
@@ -976,7 +985,8 @@ internal sealed class CoreUiWindow : IDisposable
 		//One that brought its own shape is left to it.
 		if ( !ownsGround ) return;
 
-		Root.Style.BackgroundColor = WindowCaption.Ground;
+		//What the desktop blurred comes through this, rather than a solid ground being painted over it.
+		Root.Style.BackgroundColor = Blurred ? WindowCaption.GlassGround : WindowCaption.Ground;
 		Root.Style.OverflowX = OverflowMode.Hidden;
 		Root.Style.OverflowY = OverflowMode.Hidden;
 
@@ -1565,6 +1575,11 @@ internal sealed class CoreUiWindow : IDisposable
 			}
 
 			attached = (width, height);
+
+			//The blur region was made when the window was first created, which can be smaller than the size it opens at.
+			//The region belongs to the surface, so the first attach has to bring it up to this size too.
+			window.UpdateBlurBehind();
+
 			Composited = wantsAlpha && CoreRenderDevice.IsComposited( swapchain );
 
 			//The first moment there is an answer, and the only thing waiting on it: a window cannot
@@ -1591,6 +1606,10 @@ internal sealed class CoreUiWindow : IDisposable
 		{
 			//Remembered only once it took, so a size the window system refused mid-change is asked for again
 			if ( CoreRenderDevice.Resize( swapchain, width, height ) ) attached = (width, height);
+
+			//The blur belongs to the surface, not to the swapchain, so it follows the size on its own.
+			window.UpdateBlurBehind();
+
 			windowStale = true;
 		}
 
